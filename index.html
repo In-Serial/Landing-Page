@@ -7,24 +7,76 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="bg" data-frames="280"></canvas>
+
     <nav id="navbar" class="navbar">
-        <a class="logo" href="#home"></a>
-            <img src="public/icon/logo.png" alt="">
-        <ul id="navlinks" class="nav-links"></ul>
+        <a class="logo" href="#home">
+            <img src="public/icon/logo.png" alt="InSerial">
+        </a>
+        <ul id="navlinks" class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+        </ul>
     </nav>
 
-    <div id="home" class="hero"></div>
+    <main>
+        <div id="home" class="hero" data-frame="0">
+            <div class="container">
+                <h1>InSerial</h1>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <a class="btn" href="#download">Scarica ora</a>
+            </div>
+        </div> 
+        <section id="problem" class="problem" data-frame="21">
+            <div class="container">
+                <h2>Il problema</h2>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus, nulla gravida orci a odio.</p>
+                <ul class="cards">
+                    <li><h3>Punto uno</h3><p>Lorem ipsum dolor sit amet consectetur.</p></li>
+                    <li><h3>Punto due</h3><p>Sed ut perspiciatis unde omnis iste natus.</p></li>
+                    <li><h3>Punto tre</h3><p>Nemo enim ipsam voluptatem quia voluptas.</p></li>
+                </ul>
+            </div>
+        </section>
 
-    <section id="problem" class="problem"></section>
+        <section id="solution" class="solution" data-frame="45">
+            <div class="container">
+                <h2>La soluzione</h2>
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.</p>
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.</p>
+                <ul class="cards">
+                    <li><h3>Funzione A</h3><p>At vero eos et accusamus et iusto odio.</p></li>
+                    <li><h3>Funzione B</h3><p>Dignissimos ducimus qui blanditiis praesentium.</p></li>
+                    <li><h3>Funzione C</h3><p>Voluptatum deleniti atque corrupti quos dolores.</p></li>
+                </ul>
+            </div>
+        </section>
 
-    <section id="solution" class="solution"></section>
+        <section id="download" class="download" data-frame="76">
+            <div class="container">
+                <h2>Download</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero.</p>
+                <a class="btn" href="#">Scarica per Windows</a>
+            </div>
+        </section>
 
-    <section id="download" class="download"></section>
+        <section id="contacts" class="contacts" data-frame="142">
+            <div class="container">
+                <h2>Contatti</h2>
+                <p>info@inserial.example &middot; +39 000 000 0000</p>
+            </div>
+        </section>
+    </main>
 
-    <section id="contacts" class="contacts"></section>
+     <footer class="footer">
+        <p>&copy; 2026 InSerial. Tutti i diritti riservati.</p>
+    </footer>
 
-    <footer class="footer"></footer>
-
-    <script src="ababab"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="src/components/scripts/smooth-scroll.js" defer></script>
+    <script src="src/components/scripts/bg-animation.js" defer></script>
 </body>
 </html>
