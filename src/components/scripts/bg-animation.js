@@ -5,7 +5,7 @@
   const ctx = canvas.getContext('2d', { alpha: false });
 
   const COUNT = Number(canvas.dataset.frames) || 280;
-  const PATH = './public/frames/frame_'; // relativo all'index.html
+  const PATH = './src/assets/frames/frame_'; // relativo all'index.html
   const EXT = '.webp';
   const SMOOTHING = 0.05; // 0.05 = più morbido, 0.2 = più reattivo
 
