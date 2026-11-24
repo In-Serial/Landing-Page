@@ -5,27 +5,27 @@
   const ctx = canvas.getContext('2d', { alpha: false });
 
   const COUNT = Number(canvas.dataset.frames) || 280;
-  const PATH = './src/assets/frames/frame_'; // relativo all'index.html
+  const PATH = './src/assets/frames/frame_';
   const EXT = '.webp';
-  const SMOOTHING = 0.05; // 0.05 = più morbido, 0.2 = più reattivo
+  const SMOOTHING = 0.05;
+  const CONCURRENCY = 8;
 
   const src = i => `${PATH}${String(i + 1).padStart(4, '0')}${EXT}`;
   const frames = new Array(COUNT);
+  const pending = new Set();
 
   let sized = false;
   let lastDrawn = -1;
 
-  // --- caricamento + decodifica anticipata ---
   async function load(i) {
-    if (frames[i]) return;
+    if (frames[i] || pending.has(i)) return;
+    pending.add(i);
     try {
-      const img = new Image();
-      img.src = src(i);
-      await img.decode();
-      const bmp = await createImageBitmap(img);
+      const res = await fetch(src(i));
+      if (!res.ok) throw new Error(res.status);
+      const bmp = await createImageBitmap(await res.blob());
 
       if (!sized) {
-        // canvas alla risoluzione nativa dei frame: lo scaling lo fa il CSS
         canvas.width = bmp.width;
         canvas.height = bmp.height;
         sized = true;
@@ -33,18 +33,33 @@
       }
       frames[i] = bmp;
     } catch {
+      pending.delete(i);
       console.warn('Frame non trovato:', src(i));
     }
   }
 
-  // prima pochi frame sparsi, poi si riempiono i buchi
-  async function preload() {
+  function buildQueue() {
+    const seen = new Set();
+    const queue = [];
     for (const step of [20, 8, 4, 2, 1]) {
-      for (let i = 0; i < COUNT; i += step) await load(i);
+      for (let i = 0; i < COUNT; i += step) {
+        if (!seen.has(i)) { seen.add(i); queue.push(i); }
+      }
     }
+    return queue;
   }
 
-  // --- ancore: [data-frame] sugli elementi della pagina ---
+  async function preload() {
+    await load(Math.round(current));
+
+    const queue = buildQueue();
+    let cursor = 0;
+    const worker = async () => {
+      while (cursor < queue.length) await load(queue[cursor++]);
+    };
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  }
+
   let stops = [];
 
   function buildStops() {
@@ -56,7 +71,6 @@
       .sort((a, b) => a.y - b.y);
   }
 
-  // dato lo scroll, restituisce il frame (anche decimale) interpolando tra le ancore
   function frameAtScroll(y) {
     if (!stops.length) return 0;
     if (y <= stops[0].y) return stops[0].frame;
@@ -73,7 +87,6 @@
     return stops[stops.length - 1].frame;
   }
 
-  // --- scroll ---
   let target = 0;
   let current = 0;
 
@@ -86,13 +99,19 @@
     updateScroll();
   }
 
-  // --- loop ---
   function tick() {
     current += (target - current) * SMOOTHING;
     if (Math.abs(target - current) < 0.01) current = target;
 
-    let i = Math.round(current);
-    while (i > 0 && !frames[i]) i--; // fallback al frame caricato più vicino
+    const near = Math.round(current);
+
+    for (let d = 0; d < 6; d++) {
+      load(Math.min(near + d, COUNT - 1));
+      load(Math.max(near - d, 0));
+    }
+
+    let i = near;
+    while (i > 0 && !frames[i]) i--;
 
     if (frames[i] && i !== lastDrawn) {
       ctx.drawImage(frames[i], 0, 0);
@@ -101,7 +120,6 @@
     requestAnimationFrame(tick);
   }
 
-  // --- avvio ---
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reduceMotion) {
@@ -109,10 +127,10 @@
   } else {
     addEventListener('scroll', updateScroll, { passive: true });
     addEventListener('resize', refresh);
-    addEventListener('load', refresh);                   // font/immagini cambiano le altezze
-    new ResizeObserver(refresh).observe(document.body);  // layout che cambia dopo
+    addEventListener('load', refresh);
+    new ResizeObserver(refresh).observe(document.body);
     refresh();
-    current = target; // parte già nella posizione corretta (es. refresh a metà pagina)
+    current = target;
     preload();
     tick();
   }
