@@ -1,30 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InSerial</title>
+    <title>InSerial — Dalla sorgente alla diagnostica</title>
+    <meta name="description" content="InSerial è un framework completo e gratuito per lo sviluppo e la diagnostica su microcontrollori: rilevamento pin, segnale in tempo reale, editor e terminale integrati.">
+    <meta name="theme-color" content="#0b0d10">
+    <link rel="icon" href="public/icon/logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="bg" data-frames="280"></canvas>
+
     <nav id="navbar" class="navbar">
-        <a class="logo" href="#home"></a>
-            <img src="public/icon/logo.png" alt="">
-        <ul id="navlinks" class="nav-links"></ul>
+        <a class="logo" href="#home">
+            <img src="public/icon/logo.png" alt="InSerial">
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="navlinks">
+            <span></span><span></span>
+        </button>
+        <ul id="navlinks" class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+        </ul>
     </nav>
 
-    <div id="home" class="hero"></div>
+    <main>
+        <div id="home" class="hero" data-frame="0">
+            <div class="container">
+                <span class="eyebrow reveal"><span class="dot"></span>MCU diagnostic framework · gratuito</span>
+                <h1 class="reveal">InSerial</h1>
+                <p class="lead reveal">A full MCU comprehensive diagnostic framework. <span>Dalla sorgente alla diagnostica.</span></p>
+                <div class="actions reveal">
+                    <a class="btn btn-primary" href="#download">Scarica ora</a>
+                    <a class="btn btn-ghost" href="#problem">Scopri di più</a>
+                </div>
+            </div>
+            <a class="scroll-hint" href="#problem" aria-label="Scorri alla sezione successiva"><span></span></a>
+        </div>
 
-    <section id="problem" class="problem"></section>
+        <section id="problem" class="problem" data-frame="21">
+            <div class="container">
+                <span class="section-tag reveal">01 — Il problema</span>
+                <h2 class="reveal">Un settore diviso in due.</h2>
+                <p class="section-text reveal">Da una parte software professionali e costosi, dall'altra strumenti gratuiti ma molto più complessi da usare. In mezzo, chi sviluppa su microcontrollori.</p>
+                <ul class="cards">
+                    <li class="reveal">
+                        <span class="card-index">01</span>
+                        <h3>Complessità</h3>
+                        <p>Gli strumenti gratuiti richiedono tempo e configurazioni prima di essere utili.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="card-index">02</span>
+                        <h3>Costo</h3>
+                        <p>Le suite professionali hanno licenze fuori portata per molti sviluppatori.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="card-index">03</span>
+                        <h3>Limiti</h3>
+                        <p>Funzioni bloccate, versioni ridotte e strumenti sparsi tra più programmi.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-    <section id="solution" class="solution"></section>
+        <section id="solution" class="solution" data-frame="45">
+            <div class="container">
+                <span class="section-tag reveal">02 — La soluzione</span>
+                <h2 class="reveal">Tutto in un unico framework.<br><span class="muted">Gratis, senza limiti.</span></h2>
+                <p class="section-text reveal">InSerial riunisce tutti gli strumenti necessari allo sviluppo e alla diagnostica sui dispositivi, senza limitazioni di alcun tipo.</p>
+                <ul class="cards">
+                    <li class="reveal">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>
+                        </span>
+                        <h3>Rilevamento pin</h3>
+                        <p>Riconoscimento automatico dei pin del dispositivo collegato.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M2 12h4l2-6 4 12 3-9 2 3h5"/></svg>
+                        </span>
+                        <h3>Segnale in tempo reale</h3>
+                        <p>Trasmissione del segnale in tempo reale con la massima precisione.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></svg>
+                        </span>
+                        <h3>Editor e terminale</h3>
+                        <p>Un editor di codice completo, con terminale e gestore delle directory per i tuoi progetti.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-    <section id="download" class="download"></section>
+        <section id="download" class="download" data-frame="76">
+            <div class="container">
+                <span class="section-tag reveal">03 — Download</span>
+                <h2 class="reveal">Disponibile a breve <span class="badge">Coming soon</span></h2>
+                <p class="section-text reveal">InSerial arriverà su tutti i principali sistemi operativi.</p>
 
-    <section id="contacts" class="contacts"></section>
+                <div class="platforms">
+                    <a class="platform reveal" href="#" aria-disabled="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+                        <span class="platform-name">Windows</span>
+                        <span class="platform-cta">Scarica per Windows</span>
+                    </a>
+                    <a class="platform reveal" href="#" aria-disabled="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>
+                        <span class="platform-name">macOS</span>
+                        <span class="platform-cta">Scarica per macOS</span>
+                    </a>
+                    <a class="platform reveal" href="#" aria-disabled="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 10 3 2-3 2M12 15h5"/></svg>
+                        <span class="platform-name">Linux</span>
+                        <span class="platform-cta">Scarica per Linux</span>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-    <footer class="footer"></footer>
+        <section id="contacts" class="contacts" data-frame="142">
+            <div class="container">
+                <div class="contact-card reveal">
+                    <span class="section-tag">04 — Contatti</span>
+                    <h2>Parliamone</h2>
+                    <p class="contact-text">Domande, segnalazioni o idee per InSerial? Scrivici: leggiamo tutto.</p>
 
-    <script src="ababab"></script>
+                    <div class="contact-mail">
+                        <a class="contact-mail-link" href="mailto:info@inserial.com">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>
+                            <span>info@inserial.com</span>
+                        </a>
+                        <button class="contact-copy" type="button" data-copy="info@inserial.com">Copia</button>
+                    </div>
+
+                    <p class="contact-note">Scrivendoci accetti che i tuoi dati vengano usati solo per risponderti. Dettagli nella <a href="privacy.html">privacy policy</a>.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <a class="footer-brand" href="#home">
+                <img src="public/icon/logo.png" alt="">
+                <span>InSerial</span>
+            </a>
+            <p class="footer-tagline">Dalla sorgente alla diagnostica.</p>
+            <ul class="footer-links">
+                <li><a href="#download">Download</a></li>
+                <li><a href="#contacts">Contatti</a></li>
+                <li><a href="privacy.html">Privacy policy</a></li>
+            </ul>
+        </div>
+        <p class="footer-year">2026 InSerial</p>
+    </footer>
+
+    <script>
+      (() => {
+        // copia email
+        document.querySelectorAll('.contact-copy').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(btn.dataset.copy);
+              btn.textContent = 'Copiato ✓';
+            } catch {
+              btn.textContent = 'Copia non riuscita';
+            }
+            setTimeout(() => (btn.textContent = 'Copia'), 1800);
+          });
+        });
+
+        // download non ancora disponibili
+        document.querySelectorAll('[aria-disabled="true"]').forEach(a =>
+          a.addEventListener('click', e => e.preventDefault())
+        );
+
+        // navbar: sfondo allo scroll + menu mobile
+        const nav = document.getElementById('navbar');
+        const toggle = nav.querySelector('.nav-toggle');
+        const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
+        addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        toggle.addEventListener('click', () => {
+          const open = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', open);
+        });
+        nav.querySelectorAll('.nav-links a').forEach(a =>
+          a.addEventListener('click', () => {
+            nav.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          })
+        );
+
+        // link attivo in base alla sezione visibile
+        const links = [...nav.querySelectorAll('.nav-links a')];
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            if (!en.isIntersecting) return;
+            links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id));
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        document.querySelectorAll('main > [id]').forEach(s => io.observe(s));
+
+        // comparsa morbida dei contenuti (solo elementi interni, non le sezioni con data-frame)
+        const items = document.querySelectorAll('.reveal');
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+          items.forEach(el => el.classList.add('in'));
+          return;
+        }
+        document.documentElement.classList.add('js-reveal');
+        const ro = new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); }
+          });
+        }, { rootMargin: '0px 0px -10% 0px' });
+        items.forEach((el, i) => {
+          el.style.setProperty('--d', (i % 4) * 80 + 'ms');
+          ro.observe(el);
+        });
+      })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="src/components/scripts/smooth-scroll.js" defer></script>
+    <script src="src/components/scripts/bg-animation.js" defer></script>
 </body>
 </html>
