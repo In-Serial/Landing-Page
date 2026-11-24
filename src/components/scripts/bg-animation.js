@@ -4,7 +4,7 @@
 
   const ctx = canvas.getContext('2d', { alpha: false });
 
-  const COUNT = Number(canvas.dataset.frames) || 280;
+  const COUNT = Number(canvas.dataset.frames) || 142;
   const PATH = './src/assets/frames/frame_';
   const EXT = '.webp';
   const SMOOTHING = 0.05;
@@ -17,13 +17,18 @@
   let sized = false;
   let lastDrawn = -1;
 
+  const TARGET_W = innerWidth < 768 ? 800 : 1280;
+
   async function load(i) {
     if (frames[i] || pending.has(i)) return;
-    pending.add(i);
+    pending.add(i); // resta in pending anche se fallisce: niente retry infiniti
     try {
       const res = await fetch(src(i));
       if (!res.ok) throw new Error(res.status);
-      const bmp = await createImageBitmap(await res.blob());
+      const bmp = await createImageBitmap(await res.blob(), {
+        resizeWidth: TARGET_W,      // l'altezza segue le proporzioni
+        resizeQuality: 'low'
+      });
 
       if (!sized) {
         canvas.width = bmp.width;
@@ -33,11 +38,9 @@
       }
       frames[i] = bmp;
     } catch {
-      pending.delete(i);
       console.warn('Frame non trovato:', src(i));
     }
   }
-
   function buildQueue() {
     const seen = new Set();
     const queue = [];
