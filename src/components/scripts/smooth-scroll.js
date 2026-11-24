@@ -3,10 +3,10 @@
   if (typeof Lenis === 'undefined') return;
 
   const lenis = new Lenis({
-    duration: 1.8,                                   // più alto = più lento e morbido
-    easing: t => 1 - Math.pow(1 - t, 3),             // ease out (CUBE)
+    duration: 4,                                   // più alto = più lento e morbido
+    easing: t => 1 - Math.pow(1 - t, 4),             // ease out (CUBE)
     wheelMultiplier: 0.7,                            // riduce la velocità della rotellina
-    touchMultiplier: 1,
+    touchMultiplier: 0.5,
     smoothWheel: true,
     syncTouch: false                                 // su touch resta lo scroll nativo (più fluido su mobile)
   });
