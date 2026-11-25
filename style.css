@@ -11,6 +11,7 @@
   /* colori tema */
   --primary: #2C9AB6;
   --primary-alt: #B82E2E;
+  --selection: #FD8421;
   --accent: var(--primary);
 
   --radius: 0;
@@ -32,7 +33,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-::selection { background: var(--primary); color: #000; }
+::selection { background: var(--selection); opacity: 0.5; color: #000; }
 
 :focus-visible {
   outline: 2px solid var(--primary);
