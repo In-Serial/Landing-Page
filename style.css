@@ -61,6 +61,15 @@ body::before {
   pointer-events: none;
 }
 
+/* velo nero quasi trasparente tra animazione e contenuti, per leggere meglio */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, .2);
+  pointer-events: none;
+}
+
 h1, h2, h3, .reveal, .doto { font-family: var(--font-display); }
 
 h1, h2, h3 {
@@ -87,7 +96,8 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
 .section-text {
   max-width: 620px;
   margin: 0;
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-family: "Fira Mono";
+  font-size: clamp(1.5rem, 1.6vw, 1.2rem);
   color: var(--muted);
 }
 
@@ -189,7 +199,7 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
   font-size: clamp(5.5rem, 22vw, 17rem);
   line-height: .9;
   margin-bottom: 1.5rem;
-  margin-left: -.1em;          /* compensa lo spazio laterale del glifo: allinea al sottotitolo */
+  margin-left: -.1em;           /* compensa lo spazio laterale del glifo: allinea al sottotitolo */
   text-align: left;
   background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, .62));
   -webkit-background-clip: text;
@@ -296,6 +306,7 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
 .problem .cards { --card-color: var(--primary-alt); }
 
 /* sezione solution: colore primary */
+.solution .section-tag { color: var(--primary); }
 .solution .cards { --card-color: var(--primary); }
 
 /* ---------- badge ---------- */
@@ -553,3 +564,9 @@ h2 .muted { color: rgba(255, 255, 255, .55); }
 }
 
 .vt323-regular { font-family: "VT323", monospace; font-weight: 400; font-style: normal; }
+
+.fira-mono-regular {
+  font-family: "Fira Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
