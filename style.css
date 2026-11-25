@@ -167,7 +167,7 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
   transition: color .2s, background .2s;
 }
 .nav-links a:hover { color: var(--text); }
-.nav-links a.active { color: #000; background: var(--cta); }
+.nav-links a.active { color: #000; background: var(--primary-alt); }
 
 .nav-toggle {
   display: none;
@@ -263,8 +263,8 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
 }
 .btn:hover { transform: translateY(-2px); }
 
-.btn-primary { background: var(--cta); border-color: var(--cta); color: #000; }
-.btn-primary:hover { background: #ff9a47; border-color: #ff9a47; }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: #000; }
+.btn-primary:hover { background: #3fb8d6; border-color: #3fb8d6; }
 
 .btn-ghost { border-color: var(--line-strong); background: var(--glass); }
 .btn-ghost:hover { border-color: var(--text); }
