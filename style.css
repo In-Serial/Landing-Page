@@ -97,8 +97,8 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
   padding: 6rem 2rem;
   box-sizing: border-box;
 }
-.hero, .problem, .solution { min-height: 100vh; }
-.download, .contacts { min-height: 60vh; }
+.hero, .problem, .solution, .download { min-height: 100vh; }
+.contacts { min-height: 60vh; padding-bottom: 12rem; }
 
 .container { width: 100%; max-width: 1040px; margin: 0 auto; }
 
@@ -189,6 +189,8 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
   font-size: clamp(5.5rem, 22vw, 17rem);
   line-height: .9;
   margin-bottom: 1.5rem;
+  margin-left: -.1em;          /* compensa lo spazio laterale del glifo: allinea al sottotitolo */
+  text-align: left;
   background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, .62));
   -webkit-background-clip: text;
   background-clip: text;
@@ -458,6 +460,21 @@ h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
   font-size: .8rem;
   color: var(--faint);
 }
+
+/* ---------- testo in negativo rispetto allo sfondo ---------- */
+/* Solo i testi che stanno direttamente sullo sfondo animato (non quelli dentro le card in vetro). */
+.hero h1,
+.lead,
+.lead span,
+.section-tag,
+.problem h2,
+.solution h2,
+.download h2,
+.section-text {
+  mix-blend-mode: hard-light;
+}
+.lead, .lead span, .section-tag, .section-text { color: #fff; }
+h2 .muted { color: rgba(255, 255, 255, .55); }
 
 /* ---------- reveal ---------- */
 .js-reveal .reveal {
