@@ -70,7 +70,6 @@
                 <h2 class="reveal">Tutto in un unico framework.<br><span class="muted">Gratis, senza limiti.</span></h2>
                 <p class="section-text reveal">InSerial riunisce tutti gli strumenti necessari allo sviluppo e alla diagnostica sui dispositivi, senza limitazioni di alcun tipo.</p>
                 <ul class="cards">
-                    <!-- TODO: icone SVGRepo -->
                     <li class="reveal">
                         <h3>Rilevamento pin</h3>
                         <p>Riconoscimento automatico dei pin del dispositivo collegato.</p>
@@ -94,7 +93,6 @@
                 <p class="section-text reveal">InSerial arriverà su tutti i principali sistemi operativi.</p>
 
                 <div class="platforms">
-                    <!-- TODO: icone SVGRepo -->
                     <a class="platform reveal" href="#" aria-disabled="true">
                         <span class="platform-name">Windows</span>
                         <span class="platform-cta">Scarica per Windows</span>
@@ -150,7 +148,6 @@
 
     <script>
       (() => {
-        // copia email
         document.querySelectorAll('.contact-copy').forEach(btn => {
           btn.addEventListener('click', async () => {
             try {
@@ -163,12 +160,10 @@
           });
         });
 
-        // download non ancora disponibili
         document.querySelectorAll('[aria-disabled="true"]').forEach(a =>
           a.addEventListener('click', e => e.preventDefault())
         );
 
-        // navbar: sfondo allo scroll + menu mobile
         const nav = document.getElementById('navbar');
         const toggle = nav.querySelector('.nav-toggle');
         const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
@@ -186,7 +181,6 @@
           })
         );
 
-        // link attivo in base alla sezione visibile
         const links = [...nav.querySelectorAll('.nav-links a')];
         const io = new IntersectionObserver(entries => {
           entries.forEach(en => {
@@ -196,7 +190,6 @@
         }, { rootMargin: '-45% 0px -50% 0px' });
         document.querySelectorAll('main > [id]').forEach(s => io.observe(s));
 
-        // comparsa morbida dei contenuti
         const items = document.querySelectorAll('.reveal');
         if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
           items.forEach(el => el.classList.add('in'));
