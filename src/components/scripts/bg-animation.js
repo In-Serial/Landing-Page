@@ -8,7 +8,7 @@
   const EXT = '.webp';
   const SMOOTHING = 0.05;
 
-  const DESKTOP_COUNT = Number(canvas.dataset.framesDesktop) || 95;
+  const DESKTOP_COUNT = Number(canvas.dataset.framesDesktop) || 142;
   const MOBILE_COUNT = Number(canvas.dataset.framesMobile) || DESKTOP_COUNT;
 
   let variant = 'mobile';
