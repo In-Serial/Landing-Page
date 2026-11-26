@@ -4,51 +4,57 @@
 
   const ctx = canvas.getContext('2d', { alpha: false });
 
-  let COUNT = Number(canvas.dataset.frames) || 142;
   const BASE = './src/assets/frames/';
   const EXT = '.webp';
   const SMOOTHING = 0.05;
 
-  // --- Mobile first: i valori di base sono quelli mobile,
-  // --- il desktop li sovrascrive solo se il media query combacia.
-  const DESKTOP_QUERY = '(min-width: 768px)';
+  const DESKTOP_COUNT = Number(canvas.dataset.framesDesktop) || 95;
+  const MOBILE_COUNT = Number(canvas.dataset.framesMobile) || DESKTOP_COUNT;
 
   let variant = 'mobile';
-  let TARGET_W = 800;
-  let CONCURRENCY = 4;
+  if (matchMedia('(min-width: 768px)').matches) variant = 'desktop';
 
-  if (matchMedia(DESKTOP_QUERY).matches) {
-    variant = 'desktop';
-    TARGET_W = 1280;
-    CONCURRENCY = 8;
-    COUNT = 95; 
-  }
-
-  // Risparmio dati: forza mobile se la connessione è lenta
   const conn = navigator.connection;
   if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) {
     variant = 'mobile';
-    TARGET_W = 800;
-    CONCURRENCY = 3;
   }
 
-  const PATH = `${BASE}${variant}/frame_`;
+  const CONFIG = {
+    mobile:  { count: MOBILE_COUNT,  width: 800,  concurrency: 4, lookahead: 3 },
+    desktop: { count: DESKTOP_COUNT, width: 1280, concurrency: 8, lookahead: 6 }
+  }[variant];
 
-  const src = i => `${PATH}${String(i + 1).padStart(4, '0')}${EXT}`;
+  const COUNT = CONFIG.count;
+  const TARGET_W = CONFIG.width;
+
+  const pad = n => String(n + 1).padStart(4, '0');
+  const srcFor = (v, i) => `${BASE}${v}/frame_${pad(i)}${EXT}`;
+  const src = i => srcFor(variant, i);
+
+  const toDesktop = i =>
+    Math.round((i / Math.max(COUNT - 1, 1)) * (DESKTOP_COUNT - 1));
+
   const frames = new Array(COUNT);
   const pending = new Set();
 
   let sized = false;
   let lastDrawn = -1;
 
+  async function fetchFrame(i) {
+    let res = await fetch(src(i));
+    if (!res.ok && variant === 'mobile') {
+      res = await fetch(srcFor('desktop', toDesktop(i)));
+    }
+    if (!res.ok) throw new Error(res.status);
+    return res.blob();
+  }
+
   async function load(i) {
     if (frames[i] || pending.has(i)) return;
-    pending.add(i); // resta in pending anche se fallisce: niente retry infiniti
+    pending.add(i);
     try {
-      const res = await fetch(src(i));
-      if (!res.ok) throw new Error(res.status);
-      const bmp = await createImageBitmap(await res.blob(), {
-        resizeWidth: TARGET_W,      // l'altezza segue le proporzioni
+      const bmp = await createImageBitmap(await fetchFrame(i), {
+        resizeWidth: TARGET_W,
         resizeQuality: 'low'
       });
 
@@ -75,6 +81,9 @@
     return queue;
   }
 
+  let target = 0;
+  let current = 0;
+
   async function preload() {
     await load(Math.round(current));
 
@@ -83,17 +92,20 @@
     const worker = async () => {
       while (cursor < queue.length) await load(queue[cursor++]);
     };
-    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    await Promise.all(Array.from({ length: CONFIG.concurrency }, worker));
   }
 
   let stops = [];
 
   function buildStops() {
-    stops = [...document.querySelectorAll('[data-frame]')]
-      .map(el => ({
-        y: el.getBoundingClientRect().top + scrollY,
-        frame: Math.min(Math.max(Number(el.dataset.frame), 0), COUNT - 1)
-      }))
+    stops = [...document.querySelectorAll('[data-progress]')]
+      .map(el => {
+        const p = Math.min(Math.max(Number(el.dataset.progress), 0), 1);
+        return {
+          y: el.getBoundingClientRect().top + scrollY,
+          frame: p * (COUNT - 1)
+        };
+      })
       .sort((a, b) => a.y - b.y);
   }
 
@@ -113,9 +125,6 @@
     return stops[stops.length - 1].frame;
   }
 
-  let target = 0;
-  let current = 0;
-
   function updateScroll() {
     target = frameAtScroll(scrollY);
   }
@@ -131,9 +140,7 @@
 
     const near = Math.round(current);
 
-    // Mobile: finestra di prefetch più stretta per risparmiare banda
-    const lookahead = variant === 'mobile' ? 3 : 6;
-    for (let d = 0; d < lookahead; d++) {
+    for (let d = 0; d < CONFIG.lookahead; d++) {
       load(Math.min(near + d, COUNT - 1));
       load(Math.max(near - d, 0));
     }
