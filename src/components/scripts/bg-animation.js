@@ -21,7 +21,7 @@
     variant = 'desktop';
     TARGET_W = 1280;
     CONCURRENCY = 8;
-    COUNT = 283; 
+    COUNT = 95; 
   }
 
   // Risparmio dati: forza mobile se la connessione è lenta
