@@ -4,11 +4,35 @@
 
   const ctx = canvas.getContext('2d', { alpha: false });
 
-  const COUNT = Number(canvas.dataset.frames) || 142;
-  const PATH = './src/assets/frames/frame_';
+  let COUNT = Number(canvas.dataset.frames) || 142;
+  const BASE = './src/assets/frames/';
   const EXT = '.webp';
   const SMOOTHING = 0.05;
-  const CONCURRENCY = 8;
+
+  // --- Mobile first: i valori di base sono quelli mobile,
+  // --- il desktop li sovrascrive solo se il media query combacia.
+  const DESKTOP_QUERY = '(min-width: 768px)';
+
+  let variant = 'mobile';
+  let TARGET_W = 800;
+  let CONCURRENCY = 4;
+
+  if (matchMedia(DESKTOP_QUERY).matches) {
+    variant = 'desktop';
+    TARGET_W = 1280;
+    CONCURRENCY = 8;
+    COUNT = 283; 
+  }
+
+  // Risparmio dati: forza mobile se la connessione è lenta
+  const conn = navigator.connection;
+  if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) {
+    variant = 'mobile';
+    TARGET_W = 800;
+    CONCURRENCY = 3;
+  }
+
+  const PATH = `${BASE}${variant}/frame_`;
 
   const src = i => `${PATH}${String(i + 1).padStart(4, '0')}${EXT}`;
   const frames = new Array(COUNT);
@@ -16,8 +40,6 @@
 
   let sized = false;
   let lastDrawn = -1;
-
-  const TARGET_W = innerWidth < 768 ? 800 : 1280;
 
   async function load(i) {
     if (frames[i] || pending.has(i)) return;
@@ -41,6 +63,7 @@
       console.warn('Frame non trovato:', src(i));
     }
   }
+
   function buildQueue() {
     const seen = new Set();
     const queue = [];
@@ -108,7 +131,9 @@
 
     const near = Math.round(current);
 
-    for (let d = 0; d < 6; d++) {
+    // Mobile: finestra di prefetch più stretta per risparmiare banda
+    const lookahead = variant === 'mobile' ? 3 : 6;
+    for (let d = 0; d < lookahead; d++) {
       load(Math.min(near + d, COUNT - 1));
       load(Math.max(near - d, 0));
     }
