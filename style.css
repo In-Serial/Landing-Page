@@ -75,6 +75,14 @@ h1, h2, h3 {
   text-shadow: 0 2px 24px rgba(0, 0, 0, .45);
 }
 
+p {
+  text-shadow: 
+    1px 1px   rgba(0, 0, 0, .45),
+    -1px 1px   rgba(0, 0, 0, .45),
+    1px -1px   rgba(0, 0, 0, .45),
+    -1px -1px   rgba(0, 0, 0, .45);
+}
+
 h1 { margin: 0 0 1.25rem; font-size: clamp(3.4rem, 11vw, 8rem); font-weight: 400; letter-spacing: -.01em; }
 h2 { margin: 0 0 1.25rem; font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 400; }
 h3 { margin: 0 0 .75rem; font-size: 2rem; font-weight: 400; }
